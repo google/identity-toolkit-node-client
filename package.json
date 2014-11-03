@@ -1,0 +1,40 @@
+{
+  "name": "gitkitclient",
+  "version": "0.0.2",
+  "author": "Google Inc.",
+  "description": "Google Identity Toolkit Client Library for Node.js",
+  "contributors": [
+    {
+      "name": "Jin Liu",
+      "email": "liujin@google.com"
+    }
+  ],
+  "main": "./lib/gitkitclient.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/google/identity-toolkit-node-client.git"
+  },
+  "keywords": [
+    "google",
+    "gitkit",
+    "identity",
+    "toolkit",
+    "client",
+    "client library"
+  ],
+  "dependencies": {
+    "async": "0.2.10",
+    "googleapis": "1.0.0",
+    "request": "2.37.0"
+  },
+  "devDependencies": {
+    "mocha": "1.8.1",
+    "nock": "0.42.1",
+    "timekeeper": "0.0.4"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --timeout 4000",
+    "prepare": "npm test && npm version patch"
+  },
+  "license": "Apache 2"
+}
