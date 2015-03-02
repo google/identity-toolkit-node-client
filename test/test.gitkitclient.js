@@ -19,7 +19,7 @@
 var tk = require('timekeeper');
 var assert = require('assert');
 var fs = require('fs');
-var GitkitClient = require('../gitkitclient.js');
+var GitkitClient = require('../lib/gitkitclient.js');
 var nock = require('nock');
 
 nock.disableNetConnect();
@@ -94,6 +94,44 @@ describe('Gitkit client library', function() {
       assert.equal(result['oobLink'],
           'http://localhost:8000/widget?mode=resetPassword&oobCode=random-oob-code');
       assert.equal(result['responseBody'], '{"success":true}');
+      jwtScope.done();
+      scope.done();
+      done();
+    });
+  });
+
+  it('should get email verification link', function() {
+    var jwtScope = nock('https://accounts.google.com')
+        .filteringRequestBody(function(path) {
+          return 'ABC';
+        })
+        .post('/o/oauth2/token', 'ABC')
+        .reply(200, {
+          'access_token': 'access token'
+        });
+    var userEmail = 'test@test.com';
+    var oobCode = 'random-oob-code';
+
+    var scope = nock('https://www.googleapis.com')
+        .post('/identitytoolkit/v3/relyingparty/getOobConfirmationCode', {
+          'email': userEmail,
+          'requestType': 'VERIFY_EMAIL'
+        })
+        .reply(200, {
+          oobCode: oobCode
+        });
+
+    var gitkitClient = new GitkitClient({
+      'clientId' : 'testaudience',
+      'serviceAccountEmail' : 'SERVICE_ACCOUNT_EMAIL@developer.gserviceaccount.com',
+      'serviceAccountPrivateKeyFile' : __dirname + '/fixtures/' + 'privatekey.pem',
+      'widgetUrl' : 'http://localhost:8000/widget',
+      'cookieName' : 'gtoken'
+    });
+    gitkitClient.getEmailVerificationLink(userEmail, function(error, result) {
+      assert.equal(error,  null);
+      assert.equal(result,
+          'http://localhost:8000/widget?mode=resetPassword&oobCode=random-oob-code');
       jwtScope.done();
       scope.done();
       done();

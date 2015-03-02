@@ -83,6 +83,15 @@ Get Account Info
   });
 ```
 
+Get the URL to verify user's email
+--------------
+
+```javascript
+  gitkitClient.getEmailVerificationLink("1234@example.com", function(err, resp) {
+    console.log('email verification link: ' + resp);
+  });
+```
+
 Delete Account
 --------------
 
