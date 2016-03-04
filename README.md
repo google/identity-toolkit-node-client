@@ -12,7 +12,6 @@ Initialize Gitkit client instance
     'clientId' : GOOGLE_OAUTH2_WEB_CLIENT_ID,
     'serviceAccountEmail' : SERVICE_ACCOUNT_EMAIL@developer.gserviceaccount.com,
     'serviceAccountPrivateKeyFile' : PRIVATE_KEY_IN_PEM_FORMAT.pem,
-    'serverApiKey' : SERVER_API_KEY_IN_GOOGLE_DEVELOPER_CONSOLE_PROJECT,
     'widgetUrl' : 'http://localhost:8000/gitkit',
     'cookieName' : 'gtoken'
   });
